@@ -6,7 +6,7 @@ import {
   Result
 } from "./types";
 import { isFunction } from "@/utils/is";
-import { ContentTypeEnum } from "./enums";
+import { ContentTypeEnum } from "../../../enums/httpEnums";
 import { cloneDeep } from "lodash-es";
 import { errorResult } from "./const";
 import { AxiosCanceler } from "./axiosCancel";

@@ -2,7 +2,7 @@ import { AxiosTransform } from "./axiosTransform";
 import { AxiosResponse, AxiosRequestConfig } from "axios";
 import { Result, RequestOptions, CreateAxiosOptions } from "./types";
 import { errorResult } from "./const";
-import { ResultEnum, RequestEnum, ContentTypeEnum } from "./enums";
+import { ResultEnum, RequestEnum, ContentTypeEnum } from "../../../enums/httpEnums";
 import { useMessage } from "@/hooks/web/useMessage";
 import { isString } from "@/utils/is";
 import { formatRequestDate } from "@/utils/dateUtil";
