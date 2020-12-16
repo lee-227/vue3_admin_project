@@ -6,3 +6,17 @@ export enum ContentTypeEnum {
   //form-data upload
   FORM_DATA = "multipart/form-data;charset=UTF-8"
 }
+
+export enum ResultEnum {
+  SUCCESS = 1,
+  ERROR = 0,
+  TIMEOUT = 401,
+  TYPE = "success"
+}
+
+export enum RequestEnum {
+  GET = "get",
+  POST = "post",
+  PUT = "put",
+  DELETE = "delete"
+}

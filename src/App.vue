@@ -3,18 +3,12 @@
 </template>
 <script lang="ts">
 import { defineComponent, onMounted } from "vue";
-import axios from "axios";
+import { login } from "./api/sys/user";
 export default defineComponent({
   setup() {
-    onMounted(() => {
-      axios
-        .request({
-          url: "/api/get",
-          method: "get"
-        })
-        .then(data => {
-          console.log(data);
-        });
+    onMounted(async () => {
+      const data = await login();
+      console.log(data);
     });
   }
 });

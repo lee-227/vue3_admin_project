@@ -30,12 +30,10 @@ function createFakeUserList() {
 }
 export default [
   {
-    url: "/api/get",
-    method: "get",
-    response: () => {
-      return resultSuccess({
-        name: "lee"
-      });
+    url: RegExp("/api/get1.*"),
+    method: "post",
+    response: ctx => {
+      return resultSuccess(ctx);
     }
   },
   {

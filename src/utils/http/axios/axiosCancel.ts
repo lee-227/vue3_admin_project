@@ -8,7 +8,6 @@ export const getPendingUrl = (config: AxiosRequestConfig) =>
   [config.method, config.url].join("&");
 
 export class AxiosCanceler {
-
   addPending(config: AxiosRequestConfig) {
     this.removePending(config);
     const url = getPendingUrl(config);
@@ -36,7 +35,7 @@ export class AxiosCanceler {
     });
     pendingMap.clear();
   }
-  
+
   reset() {
     pendingMap = new Map<string, Canceler>();
   }

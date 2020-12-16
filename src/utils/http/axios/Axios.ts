@@ -94,7 +94,7 @@ export default class VAxios {
       isFunction(responseInterceptorsCatch) &&
       this.axiosInstance.interceptors.response.use(
         undefined,
-        requestInterceptorsCatch
+        responseInterceptorsCatch
       );
   }
   //文件上传
