@@ -1,21 +1,40 @@
 import { http } from "@/utils/http/axios";
-import { dateUtil } from "@/utils/dateUtil";
+import {
+  LoginParams,
+  LoginResultModel,
+  GetUserInfoByUserIdModel,
+  GetUserInfoByUserIdParams
+} from "./model/userModel";
 
 enum API {
-  Login = "/get"
+  Login = "/login",
+  GetUserInfoById = "/getUserInfoById",
+  GetPermCodeByUserId = "/getPermCodeByUserId"
 }
 
-export function login(params: any = { name: "123", data: dateUtil() }) {
-  return http.request(
+export function login(params: LoginParams) {
+  return http.request<LoginResultModel>(
     {
       url: API.Login,
       method: "post",
       params
     },
     {
-      joinParamsToUrl: true,
-      joinPrefix: false,
-      formatDate: true
+      errorMessageMode: "modal"
     }
   );
+}
+export function getUserInfoById(params: GetUserInfoByUserIdParams) {
+  return http.request<GetUserInfoByUserIdModel>({
+    url: API.GetUserInfoById,
+    method: "get",
+    params
+  });
+}
+export function getPermCodeByUserId(params: GetUserInfoByUserIdParams) {
+  return http.request<string[]>({
+    url: API.GetPermCodeByUserId,
+    method: "get",
+    params
+  });
 }

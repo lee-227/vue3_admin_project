@@ -1,13 +1,14 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import { App } from "vue";
 import { basicRoutes } from "./routes";
+import { scrollBehavior } from "./scrollBehavior";
 
 // 创建路由
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes: basicRoutes as RouteRecordRaw[],
-  strict: true
-  // scrollBehavior: scrollBehavior
+  strict: true,
+  scrollBehavior
 });
 
 // 重置路由
