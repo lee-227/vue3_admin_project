@@ -1,3 +1,5 @@
+import { userStore } from "@/store/user";
+
 export function getToken(): string {
-  return "";
+  return userStore.getTokenState;
 }

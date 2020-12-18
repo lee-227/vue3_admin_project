@@ -6,9 +6,11 @@ import {
   getModule
 } from "vuex-module-decorators";
 import store from ".";
-
+import { hotModuleUnregisterModule } from "@/utils/helper/vuexHelper";
+const NAME = "app";
+hotModuleUnregisterModule(NAME);
 let timeId: any;
-@Module({ namespaced: true, name: "app", dynamic: true, store: store })
+@Module({ namespaced: true, name: NAME, dynamic: true, store: store })
 class App extends VuexModule {
   private pageLoadingState = false;
 
@@ -19,6 +21,9 @@ class App extends VuexModule {
   commitPageLoadingState(loading: boolean): void {
     this.pageLoadingState = loading;
   }
+
+  @Action
+  async resumeAllState() {}
   @Action
   public async setPageLoadingAction(loading: boolean): Promise<void> {
     if (loading) {

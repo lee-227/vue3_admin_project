@@ -8,4 +8,6 @@ export const LoginRoute: AppRouteRecordRaw = {
     title: "登录"
   }
 };
+
+export const asyncRoutes = [LoginRoute];
 export const basicRoutes = [LoginRoute];

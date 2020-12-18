@@ -16,17 +16,23 @@ import { getUserInfoById } from "@/api/sys/user";
 import router from "@/router";
 import { PageEnum } from "@/enums/pageEnums";
 import { useMessage } from "@/hooks/web/useMessage";
+import { getLocal, setLocal } from "@/utils/helper/persistent";
+import { hotModuleUnregisterModule } from "@/utils/helper/vuexHelper";
 
+const NAME = "user";
+hotModuleUnregisterModule(NAME);
 export type UserInfo = Omit<GetUserInfoByUserIdModel, "roles">;
 
 function getCache<T>(key: string) {
-  return (key as unknown) as T;
+  const fn = getLocal;
+  return fn(key) as T;
 }
 function setCache(key: string, info: any) {
   if (!info) return;
+  setLocal(USER_INFO_KEY, info, true);
 }
 
-@Module({ namespaced: true, name: "user", dynamic: true, store })
+@Module({ namespaced: true, name: NAME, dynamic: true, store })
 class User extends VuexModule {
   private userInfoState: UserInfo | null = null;
   private tokenState: string = "";
