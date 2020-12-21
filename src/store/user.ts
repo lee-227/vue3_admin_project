@@ -18,6 +18,7 @@ import { PageEnum } from "@/enums/pageEnums";
 import { useMessage } from "@/hooks/web/useMessage";
 import { getLocal, setLocal } from "@/utils/helper/persistent";
 import { hotModuleUnregisterModule } from "@/utils/helper/vuexHelper";
+import { useI18n } from "@/hooks/web/useI18n";
 
 const NAME = "user";
 hotModuleUnregisterModule(NAME);
@@ -35,7 +36,7 @@ function setCache(key: string, info: any) {
 @Module({ namespaced: true, name: NAME, dynamic: true, store })
 class User extends VuexModule {
   private userInfoState: UserInfo | null = null;
-  private tokenState: string = "";
+  private tokenState = "";
   private roleListState: RoleEnum[] = [];
 
   get getUserInfoState(): UserInfo {
@@ -91,11 +92,12 @@ class User extends VuexModule {
   }
   @Action
   async confirmLoginOut() {
+    const { t } = useI18n();
     const { createConfirm } = useMessage();
     createConfirm({
       iconType: "warning",
-      title: "退出登录",
-      content: "你确定要退出嘛?",
+      title: t("sys.app.loginOutTip"),
+      content: t("sys.app.loginOutMessage"),
       onOk: async () => {
         await this.LoginOut(true);
       }

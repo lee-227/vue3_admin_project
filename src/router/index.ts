@@ -2,15 +2,15 @@ import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import { App } from "vue";
 import { basicRoutes } from "./routes";
 import { scrollBehavior } from "./scrollBehavior";
+import { createGuard } from './guards';
 
 // 创建路由
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(),
   routes: basicRoutes as RouteRecordRaw[],
   strict: true,
   scrollBehavior
 });
-
 // 重置路由
 export function resetRouter() {
   const resetWhiteNameList = ["Login"];
@@ -24,6 +24,6 @@ export function resetRouter() {
 // 配置路由
 export function setupRouter(app: App<Element>) {
   app.use(router);
-  // createGuard(router);
+  createGuard(router);
 }
 export default router;

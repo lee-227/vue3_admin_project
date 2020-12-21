@@ -1,8 +1,10 @@
 import { useMessage } from "@/hooks/web/useMessage";
+import { useI18n } from "@/hooks/web/useI18n";
 
 const { createMessage } = useMessage();
 const error = createMessage.error;
 export function checkStatus(status: number, msg: string): void {
+  const { t } = useI18n();
   switch (status) {
     case 400:
       error(`${msg}`);
@@ -19,7 +21,7 @@ export function checkStatus(status: number, msg: string): void {
     //   break;
     // // 404请求不存在
     case 404:
-      error("请求不存在");
+      error(t('sys.api.errMsg404'));
       break;
     // case 405:
     //   error(t("sys.api.errMsg405"));

@@ -1,11 +1,11 @@
 import { AppRouteRecordRaw } from "../types";
-
+import { t } from "@/hooks/web/useI18n";
 export const LoginRoute: AppRouteRecordRaw = {
   path: "/login",
   name: "Login",
   component: () => import("@/views/sys/login/Login.vue"),
   meta: {
-    title: "登录"
+    title: t("routes.basic.login")
   }
 };
 

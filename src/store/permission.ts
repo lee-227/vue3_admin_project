@@ -18,6 +18,7 @@ import { filter } from "@/utils/helper/treeHeleper";
 import { getMenuListById } from "@/api/sys/menu";
 import { transformObjToRoute } from "@/router/helper/routeHelper";
 import { transformRouteToMenu } from "@/router/helper/menuHelper";
+import { useI18n } from "@/hooks/web/useI18n";
 
 const { createMessage } = useMessage();
 const NAME = "permission";
@@ -69,6 +70,7 @@ class Permission extends VuexModule {
 
   @Action
   async buildRoutesAction(id?: number | string): Promise<AppRouteRecordRaw[]> {
+    const { t } = useI18n();
     let routes: AppRouteRecordRaw[] = [];
     const roleList = toRaw(userStore.getRoleListState);
     const { permissionMode } = { permissionMode: "" };
@@ -81,7 +83,7 @@ class Permission extends VuexModule {
       });
     } else if (permissionMode === PermissionModeEnum.BACK) {
       createMessage.loading({
-        content: "稍后~",
+        content: t('sys.app.menuLoading'),
         duration: 1
       });
       const paramId = id || userStore.getUserInfoState.userId;
