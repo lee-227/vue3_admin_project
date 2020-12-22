@@ -73,7 +73,7 @@ class Permission extends VuexModule {
     const { t } = useI18n();
     let routes: AppRouteRecordRaw[] = [];
     const roleList = toRaw(userStore.getRoleListState);
-    const { permissionMode } = { permissionMode: "" };
+    const { permissionMode } = appStore.getProjectConfig;
     if (permissionMode === PermissionModeEnum.ROLE) {
       routes = filter(asyncRoutes, (route: AppRouteRecordRaw) => {
         const { meta } = route as AppRouteRecordRaw;

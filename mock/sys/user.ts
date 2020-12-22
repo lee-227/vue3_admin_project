@@ -1,4 +1,4 @@
-import { resultError, resultSuccess } from "../_utils";
+import { resultError, resultSuccess, getParams } from "../_utils";
 
 function createFakeUserList() {
   return [
@@ -28,19 +28,17 @@ function createFakeUserList() {
     }
   ];
 }
+const fakeCodeList: any = {
+  "1": ["1000", "3000", "5000"],
+
+  "2": ["2000", "4000", "6000"]
+};
 export default [
-  {
-    url: RegExp("/api/get1.*"),
-    method: "post",
-    response: ctx => {
-      return resultSuccess(ctx);
-    }
-  },
   {
     url: "/api/login",
     method: "post",
     response: ({ body }) => {
-      const { username, password } = body;
+      const { username, password } = JSON.parse(body);
       const checkUser = createFakeUserList().find(
         item => item.username === username && password === item.password
       );
@@ -63,6 +61,35 @@ export default [
         realName,
         desc
       });
+    }
+  },
+  {
+    url: RegExp("/api/getUserInfoById" + ".*"),
+    method: "get",
+    response: ({ url }) => {
+      const { userId } = getParams<{ userId: string }>(url);
+      const checkUser = createFakeUserList().find(
+        item => item.userId === userId
+      );
+      if (!checkUser) {
+        return resultError(
+          "The corresponding user information was not obtained!"
+        );
+      }
+      return resultSuccess(checkUser);
+    }
+  },
+  {
+    url: "/api/getPermCodeByUserId",
+    method: "get",
+    response: ({ query }) => {
+      const { userId } = query;
+      if (!userId) {
+        return resultError("userId is not null!");
+      }
+      const codeList = fakeCodeList[userId];
+
+      return resultSuccess(codeList);
     }
   }
 ];

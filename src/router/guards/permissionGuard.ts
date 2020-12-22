@@ -1,5 +1,3 @@
-// import { RootRoute } from '../routes/index';
-
 import { PageEnum } from '@/enums/pageEnums';
 import { Router, RouteRecordRaw } from 'vue-router';
 import { PAGE_NOT_FOUND_ROUTE } from '../constant';
@@ -17,8 +15,6 @@ export function createPermissionGuard(router: Router) {
       next(PageEnum.BASE_HOME);
       return;
     }
-
-    // Whitelist can be directly entered
     if (whitePathList.includes(to.path as PageEnum)) {
       next();
       return;
@@ -26,17 +22,13 @@ export function createPermissionGuard(router: Router) {
 
     const token = getToken();
 
-    // token does not exist
     if (!token) {
-      // You can access without permission. You need to set the routing meta.ignoreAuth to true
       if (
         to.meta.ignoreAuth
-        // || to.name === FULL_PAGE_NOT_FOUND_ROUTE.name
       ) {
         next();
         return;
       }
-      // redirect login page
       const redirectData: { path: string; replace: boolean; query?: { [key: string]: string } } = {
         path: LOGIN_PATH,
         replace: true,
@@ -56,7 +48,6 @@ export function createPermissionGuard(router: Router) {
     }
     const routes = await permissionStore.buildRoutesAction();
     routes.forEach((route) => {
-      // router.addRoute(RootRoute.name!, route as RouteRecordRaw);
       router.addRoute(route as RouteRecordRaw);
     });
 
@@ -68,7 +59,6 @@ export function createPermissionGuard(router: Router) {
   });
 
   router.afterEach((to) => {
-    // Just enter the login page and clear the authentication information
     if (to.path === LOGIN_PATH) {
       appStore.resumeAllState();
     }

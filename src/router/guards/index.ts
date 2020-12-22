@@ -5,6 +5,8 @@ import { createPageLoadingGuard } from "./pageLoadingGuard";
 import { createProgressGuard } from "./progressGuard";
 import { useGlobSetting, useProjectSetting } from "@/hooks/setting";
 import { Modal, notification } from "ant-design-vue";
+import { useI18n } from "@/hooks/web/useI18n";
+import { createPermissionGuard } from "./permissionGuard";
 
 const globSetting = useGlobSetting();
 const { removeAllHttpPending, closeMessageOnSwitch } = useProjectSetting();
@@ -35,8 +37,10 @@ export function createGuard(router: Router) {
     isHash((to as RouteLocationNormalized & { href: string })?.href) &&
       document.body.scrollTo(0, 0);
     loadedPageMap.set(to.path, true);
-    setTitle(to.meta.title, globSetting.title);
+    const { t } = useI18n();
+    setTitle(t(to.meta.title), globSetting.title);
   });
   createPageLoadingGuard(router);
   createProgressGuard(router);
+  createPermissionGuard(router);
 }

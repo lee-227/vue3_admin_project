@@ -17,3 +17,14 @@ export function resultError(
     type: "failed"
   };
 }
+export function getParams<T extends Record<string, string>>(url): T {
+  const params = {};
+  url
+    .split("?")[1]
+    .split("&")
+    .forEach(item => {
+      const [key, val] = item.split("=");
+      params[key] = val;
+    });
+  return params as T;
+}

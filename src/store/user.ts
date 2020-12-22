@@ -8,11 +8,12 @@ import {
 import store from ".";
 import {
   GetUserInfoByUserIdModel,
-  GetUserInfoByUserIdParams
+  GetUserInfoByUserIdParams,
+  LoginParams
 } from "@/api/sys/model/userModel";
 import { RoleEnum } from "@/enums/roleEnum";
 import { TOKEN_KEY, USER_INFO_KEY, ROLES_KEY } from "@/enums/cacheEnums";
-import { getUserInfoById } from "@/api/sys/user";
+import { getUserInfoById, login } from "@/api/sys/user";
 import router from "@/router";
 import { PageEnum } from "@/enums/pageEnums";
 import { useMessage } from "@/hooks/web/useMessage";
@@ -76,6 +77,22 @@ class User extends VuexModule {
     setCache(TOKEN_KEY, info);
   }
 
+  @Action
+  async login(
+    params: LoginParams,
+    goHome = true
+  ): Promise<GetUserInfoByUserIdModel | null> {
+    try {
+      const data = await login(params);
+      const { token, userId } = data;
+      const userInfo = await this.getUserInfoAction({ userId });
+      this.commitTokenState(token);
+      goHome && router.push(PageEnum.BASE_HOME)
+      return userInfo
+    } catch (error) {
+      return null
+    }
+  }
   @Action
   async getUserInfoAction({ userId }: GetUserInfoByUserIdParams) {
     const userInfo = await getUserInfoById({ userId });

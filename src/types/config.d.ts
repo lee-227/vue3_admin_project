@@ -1,4 +1,5 @@
 import { LocaleType } from "@/locales/types";
+import { PermissionModeEnum } from "@/enums/appEnums";
 
 export interface GlobConfig {
   title: string;
@@ -16,6 +17,7 @@ export interface ProjectConfig {
   closeMessageOnSwitch: boolean;
   removeAllHttpPending: boolean;
   locale: LocaleSetting;
+  permissionMode: PermissionModeEnum;
 }
 export interface LocaleSetting {
   show: boolean;
