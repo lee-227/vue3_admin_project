@@ -14,7 +14,7 @@ import { toRaw } from "vue";
 import { appStore } from "./app";
 import { PermissionModeEnum } from "@/enums/appEnums";
 import { asyncRoutes } from "@/router/routes";
-import { filter } from "@/utils/helper/treeHeleper";
+import { filter } from "@/utils/helper/treeHelper";
 import { getMenuListById } from "@/api/sys/menu";
 import { transformObjToRoute } from "@/router/helper/routeHelper";
 import { transformRouteToMenu } from "@/router/helper/menuHelper";

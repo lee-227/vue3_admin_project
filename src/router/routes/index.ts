@@ -1,5 +1,10 @@
 import { AppRouteRecordRaw } from "../types";
 import { t } from "@/hooks/web/useI18n";
+const ctx = require.context("./modules", true, /\.ts$/);
+const routes: AppRouteRecordRaw[] = [];
+ctx.keys().forEach(key => {
+  routes.push(ctx(key).default);
+});
 export const LoginRoute: AppRouteRecordRaw = {
   path: "/login",
   name: "Login",
@@ -9,5 +14,5 @@ export const LoginRoute: AppRouteRecordRaw = {
   }
 };
 
-export const asyncRoutes = [LoginRoute];
+export const asyncRoutes = [...routes];
 export const basicRoutes = [LoginRoute];

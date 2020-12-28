@@ -14,7 +14,7 @@ export interface RouteMeta {
   // 是否固定到tab
   affix?: boolean;
   // 图表
-  icon?: boolean;
+  icon?: string;
   // 跳转地址
   frameSrc?: boolean;
   // 外链

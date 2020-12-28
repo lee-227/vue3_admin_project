@@ -1,6 +1,7 @@
 import { AppRouteRecordRaw, AppRouteModule } from "../types";
 import { cloneDeep } from "lodash-es";
 import { LAYOUT } from "../constant";
+import { RouteRecordNormalized, RouteLocationNormalized } from 'vue-router';
 
 // 动态引入
 function asyncImportRoute(routes: AppRouteRecordRaw[] | undefined) {
@@ -43,4 +44,19 @@ export function transformObjToRoute<T = AppRouteModule>(
     route.children && asyncImportRoute(route.children);
   });
   return (routeList as unknown) as T[];
+}
+// Return to the new routing structure, not affected by the original example
+export function getRoute(route: RouteLocationNormalized): RouteLocationNormalized {
+  if (!route) return route;
+  const { matched, ...opt } = route;
+  return {
+    ...opt,
+    matched: (matched
+      ? matched.map((item) => ({
+          meta: item.meta,
+          name: item.name,
+          path: item.path,
+        }))
+      : undefined) as RouteRecordNormalized[],
+  };
 }

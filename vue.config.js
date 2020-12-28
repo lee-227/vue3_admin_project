@@ -18,5 +18,8 @@ module.exports = {
       args[0].title = process.env.VUE_APP_TITLE;
       return args;
     });
+    config
+      .plugin("purge-icons-webpack-plugin")
+      .use(require("purge-icons-webpack-plugin").PurgeIcons);
   }
 };

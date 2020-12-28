@@ -1,6 +1,6 @@
-import { AppRouteModule, AppRouteRecordRaw, Menu } from "../types";
+import { AppRouteModule, AppRouteRecordRaw, Menu, MenuModule } from "../types";
 import { cloneDeep } from "lodash-es";
-import { findPath, treeToList, treeMap } from "@/utils/helper/treeHeleper";
+import { findPath, treeToList, treeMap, forEach } from "@/utils/helper/treeHelper";
 import { isUrl } from "@/utils/is";
 
 export function getAllParentPath(treeData: any[], path: string) {
@@ -52,4 +52,14 @@ export function transformRouteToMenu(routeModList: AppRouteModule[]) {
       };
     }
   });
+}
+// 解析菜单模块
+export function transformMenuModule(menuModule: MenuModule): Menu {
+  const { menu } = menuModule;
+
+  const menuList = [menu];
+  forEach(menuList, (m) => {
+    !isUrl(m.path) && joinParentPath(menuList, m);
+  });
+  return menuList[0];
 }

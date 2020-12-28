@@ -31,7 +31,7 @@ function getCache<T>(key: string) {
 }
 function setCache(key: string, info: any) {
   if (!info) return;
-  setLocal(USER_INFO_KEY, info, true);
+  setLocal(key, info, true);
 }
 
 @Module({ namespaced: true, name: NAME, dynamic: true, store })

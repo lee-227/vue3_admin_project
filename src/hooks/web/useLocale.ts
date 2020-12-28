@@ -8,7 +8,7 @@ moment.locale("zh-cn");
 
 const antConfigLocaleRef = ref<any>(null);
 
-export function useLocal() {
+export function useLocale() {
   const { getLang, getLocale, setLocale: setLocalSetting } = useLocaleSetting();
   function changeLocale(lang: LocaleType): void {
     (getI18n().global.locale as any).value = lang;

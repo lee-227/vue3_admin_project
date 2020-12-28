@@ -1,9 +1,9 @@
 import { createI18n, I18nOptions, I18n } from "vue-i18n";
 import projectSetting from "@/setting/projectSetting";
 import { App } from "vue";
-import { useLocal } from "@/hooks/web/useLocal";
+import { useLocale } from "@/hooks/web/useLocale";
 import localMessage from "@/locales/index";
-const { setupLocale } = useLocal();
+const { setupLocale } = useLocale();
 const { lang, availableLocales, fallback } = projectSetting.locale;
 
 const localeData: I18nOptions = {

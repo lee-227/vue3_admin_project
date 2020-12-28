@@ -3,20 +3,23 @@
     :locale="antConfigLocale"
     :transformCellText="transformCellText"
   >
-    <router-view></router-view>
+    <AppProvider>
+      <router-view></router-view>
+    </AppProvider>
   </ConfigProvider>
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
 import { ConfigProvider } from "ant-design-vue";
-import { useLocal } from "./hooks/web/useLocal";
+import { useLocale } from "./hooks/web/useLocale";
 import { getConfigProvider, initAppConfigStore } from "./setup/App";
+import { AppProvider } from "@/components/Application";
 export default defineComponent({
   name: "App",
-  components: { ConfigProvider },
+  components: { ConfigProvider, AppProvider },
   setup() {
     initAppConfigStore();
-    const { antConfigLocale } = useLocal();
+    const { antConfigLocale } = useLocale();
     const { transformCellText } = getConfigProvider();
     return {
       antConfigLocale,
