@@ -18,7 +18,7 @@ import { useMenuSetting } from "@/hooks/setting/useMenuSetting";
 import { useHeaderSetting } from "@/hooks/setting/useHeaderSetting";
 import { useTrigger, useDragLine, useSiderEvent } from "./useLayoutSider";
 import { useLayoutContext } from "../useLayoutContext";
-import LayoutMenu from '../menu'
+import LayoutMenu from "../menu";
 
 export default defineComponent({
   name: "LayoutSideBar",
@@ -150,7 +150,7 @@ export default defineComponent({
             {...unref(getTriggerAttr)}
           >
             {{
-              // ...unref(getTriggerSlot),
+              trigger: unref(getTriggerSlot).trigger,
               default: () => renderDefault()
             }}
           </Layout.Sider>

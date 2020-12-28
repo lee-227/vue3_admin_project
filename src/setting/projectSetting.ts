@@ -103,7 +103,7 @@ const setting: ProjectConfig = {
     // Hide the search box when the menu is collapsed
     collapsedShowSearch: false,
     // Fold trigger position
-    trigger: TriggerEnum.HEADER,
+    trigger: TriggerEnum.NONE,
     // Turn on accordion mode, only show a menu
     accordion: true,
   },

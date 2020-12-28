@@ -1,16 +1,16 @@
-import type { FunctionalComponent } from 'vue';
+import { FunctionalComponent } from "vue";
 
-import { defineComponent, unref } from 'vue';
+import { defineComponent, unref } from "vue";
 
 import {
   DoubleRightOutlined,
   DoubleLeftOutlined,
   MenuUnfoldOutlined,
-  MenuFoldOutlined,
-} from '@ant-design/icons-vue';
+  MenuFoldOutlined
+} from "@ant-design/icons-vue";
 
-import { useMenuSetting } from '@/hooks/setting/useMenuSetting';
-import { propTypes } from '@/utils/propTypes';
+import { useMenuSetting } from "@/hooks/setting/useMenuSetting";
+import { propTypes } from "@/utils/propTypes";
 
 const SiderTrigger: FunctionalComponent = () => {
   const { getCollapsed } = useMenuSetting();
@@ -19,24 +19,28 @@ const SiderTrigger: FunctionalComponent = () => {
 
 const HeaderTrigger: FunctionalComponent<{
   theme?: string;
-}> = (props) => {
+}> = props => {
   const { toggleCollapsed, getCollapsed } = useMenuSetting();
   return (
-    <span class={['layout-trigger', props.theme]} onClick={toggleCollapsed}>
+    <span class={["layout-trigger", props.theme]} onClick={toggleCollapsed}>
       {unref(getCollapsed) ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
     </span>
   );
 };
 
 export default defineComponent({
-  name: 'LayoutTrigger',
+  name: "LayoutTrigger",
   props: {
     sider: propTypes.bool.def(true),
-    theme: propTypes.oneOf(['light', 'dark']),
+    theme: propTypes.oneOf(["light", "dark"])
   },
   setup(props) {
     return () => {
-      return props.sider ? <SiderTrigger /> : <HeaderTrigger theme={props.theme} />;
+      return props.sider ? (
+        <SiderTrigger />
+      ) : (
+        <HeaderTrigger theme={props.theme} />
+      );
     };
-  },
+  }
 });

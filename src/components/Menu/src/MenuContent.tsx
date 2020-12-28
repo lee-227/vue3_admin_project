@@ -1,62 +1,67 @@
-import type { Menu as MenuType } from '@/router/types';
-import type { PropType } from 'vue';
-import { computed, unref } from 'vue';
+import { Menu as MenuType } from "@/router/types";
+import { PropType } from "vue";
+import { computed, unref } from "vue";
 
-import { defineComponent } from 'vue';
-import Icon from '@/components/Icon/index';
-import { useI18n } from '@/hooks/web/useI18n';
-import { useDesign } from '@/hooks/web/useDesign';
+import { defineComponent } from "vue";
+import Icon from "@/components/Icon/index";
+import { useI18n } from "@/hooks/web/useI18n";
+import { useDesign } from "@/hooks/web/useDesign";
 
 const { t } = useI18n();
 
 export default defineComponent({
-  name: 'MenuContent',
+  name: "MenuContent",
   props: {
     item: {
       type: Object as PropType<MenuType>,
-      default: null,
+      default: null
     },
     showTitle: {
       type: Boolean as PropType<boolean>,
-      default: true,
+      default: true
     },
     level: {
       type: Number as PropType<number>,
-      default: 0,
+      default: 0
     },
     isHorizontal: {
       type: Boolean as PropType<boolean>,
-      default: true,
-    },
+      default: true
+    }
   },
   setup(props) {
-    const { prefixCls } = useDesign('basic-menu');
+    const { prefixCls } = useDesign("basic-menu");
 
     const getI18nName = computed(() => t(props.item?.name));
 
     const getTagClass = computed(() => {
       const { item } = props;
       const { tag = {} } = item || {};
-      const { dot, type = 'error' } = tag;
+      const { dot, type = "error" } = tag;
       return [
         `${prefixCls}__tag`,
         type,
         {
-          dot,
-        },
+          dot
+        }
       ];
     });
 
     const getNameClass = computed(() => {
       const { showTitle } = props;
-      return { [`${prefixCls}--show-title`]: showTitle, [`${prefixCls}__name`]: !showTitle };
+      return {
+        [`${prefixCls}--show-title`]: showTitle,
+        [`${prefixCls}__name`]: !showTitle
+      };
     });
 
     /**
      * @description: 渲染图标
      */
     function renderIcon(icon?: string) {
-      return icon ? <Icon icon={icon} size={18} class="menu-item-icon" /> : null;
+      return icon ? (
+        <Icon icon={icon} size={18} class="menu-item-icon" />
+      ) : null;
     }
 
     function renderTag() {
@@ -69,7 +74,7 @@ export default defineComponent({
       const { dot, content } = tag;
       if (!dot && !content) return null;
 
-      return <span class={unref(getTagClass)}>{dot ? '' : content}</span>;
+      return <span class={unref(getTagClass)}>{dot ? "" : content}</span>;
     }
 
     return () => {
@@ -92,5 +97,5 @@ export default defineComponent({
         </span>
       );
     };
-  },
+  }
 });

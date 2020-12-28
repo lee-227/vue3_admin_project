@@ -36,7 +36,7 @@ import {
 } from "ant-design-vue";
 import { getApp } from "@/setup/App";
 
-const compList = [Icon, AntButton.Group];
+const compList = [Icon];
 
 // Fix hmr multiple registered components
 let registered = false;

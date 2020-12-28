@@ -1,12 +1,12 @@
-import type { Ref } from 'vue';
+import { Ref } from "vue";
 
-import { computed, unref, onMounted, nextTick, ref } from 'vue';
-import LayoutTrigger from '@/layouts/default/LayoutTrigger';
+import { computed, unref, onMounted, nextTick, ref } from "vue";
+import LayoutTrigger from "@/layouts/default/LayoutTrigger";
 
-import { TriggerEnum } from '@/enums/menuEnums';
+import { TriggerEnum } from "@/enums/menuEnums";
 
-import { useMenuSetting } from '@/hooks/setting/useMenuSetting';
-import { useDebounce } from '@/hooks/core/useDebounce';
+import { useMenuSetting } from "@/hooks/setting/useMenuSetting";
+import { useDebounce } from "@/hooks/core/useDebounce";
 
 /**
  * Handle related operations of menu events
@@ -16,7 +16,12 @@ export function useSiderEvent() {
   const brokenRef = ref(false);
   const collapseRef = ref(true);
 
-  const { setMenuSetting, getCollapsed, getMiniWidthNumber, getShowMenu } = useMenuSetting();
+  const {
+    setMenuSetting,
+    getCollapsed,
+    getMiniWidthNumber,
+    getShowMenu
+  } = useMenuSetting();
 
   const getCollapsedWidth = computed(() => {
     return unref(brokenRef) ? 0 : unref(getMiniWidthNumber);
@@ -37,11 +42,16 @@ export function useSiderEvent() {
   }
 
   function onSiderClick(e: ChangeEvent) {
-    if (!e || !e.target || e.target.className !== 'basic-menu__content') return;
+    if (!e || !e.target || e.target.className !== "basic-menu__content") return;
     if (!unref(getCollapsed) || !unref(getShowMenu)) return;
     setMenuSetting({ collapsed: false });
   }
-  return { getCollapsedWidth, onCollapseChange, onBreakpointChange, onSiderClick };
+  return {
+    getCollapsedWidth,
+    onCollapseChange,
+    onBreakpointChange,
+    onSiderClick
+  };
 }
 
 /**
@@ -60,14 +70,14 @@ export function useTrigger() {
       return {};
     }
     return {
-      trigger: null,
+      trigger: null
     };
   });
 
   const getTriggerSlot = computed(() => {
     if (unref(showTrigger)) {
       return {
-        trigger: () => <LayoutTrigger />,
+        trigger: () => <LayoutTrigger />
       };
     }
     return {};
@@ -82,7 +92,12 @@ export function useTrigger() {
  * @param dragBarRef
  */
 export function useDragLine(siderRef: Ref<any>, dragBarRef: Ref<any>) {
-  const { getMiniWidthNumber, getCollapsed, setMenuSetting, getCanDrag } = useMenuSetting();
+  const {
+    getMiniWidthNumber,
+    getCollapsed,
+    setMenuSetting,
+    getCanDrag
+  } = useMenuSetting();
 
   const getDragBarStyle = computed(() => {
     if (unref(getCollapsed)) {
@@ -90,9 +105,13 @@ export function useDragLine(siderRef: Ref<any>, dragBarRef: Ref<any>) {
     }
     return {};
   });
-  
-  function handleMouseMove(ele: HTMLElement, wrap: HTMLElement, clientX: number) {
-    document.onmousemove = function (innerE) {
+
+  function handleMouseMove(
+    ele: HTMLElement,
+    wrap: HTMLElement,
+    clientX: number
+  ) {
+    document.onmousemove = function(innerE) {
       let iT = (ele as any).left + (innerE.clientX - clientX);
       innerE = innerE || window.event;
       const maxT = 600;
@@ -100,15 +119,15 @@ export function useDragLine(siderRef: Ref<any>, dragBarRef: Ref<any>) {
       iT < 0 && (iT = 0);
       iT > maxT && (iT = maxT);
       iT < minT && (iT = minT);
-      ele.style.left = wrap.style.width = iT + 'px';
+      ele.style.left = wrap.style.width = iT + "px";
       return false;
     };
   }
-  
-   // Drag and drop in the menu area-release the mouse
-   function removeMouseup(ele: any) {
+
+  // Drag and drop in the menu area-release the mouse
+  function removeMouseup(ele: any) {
     const wrap = unref(siderRef).$el;
-    document.onmouseup = function () {
+    document.onmouseup = function() {
       document.onmousemove = null;
       document.onmouseup = null;
       const width = parseInt(wrap.style.width);
@@ -119,7 +138,8 @@ export function useDragLine(siderRef: Ref<any>, dragBarRef: Ref<any>) {
           ? setMenuSetting({ menuWidth: width })
           : setMenuSetting({ collapsed: true });
       } else {
-        width > miniWidth && setMenuSetting({ collapsed: false, menuWidth: width });
+        width > miniWidth &&
+          setMenuSetting({ collapsed: false, menuWidth: width });
       }
       ele.releaseCapture?.();
     };
@@ -132,7 +152,7 @@ export function useDragLine(siderRef: Ref<any>, dragBarRef: Ref<any>) {
     const wrap = (side || {}).$el;
     ele &&
       (ele.onmousedown = (e: any) => {
-        wrap.style.transition = 'unset';
+        wrap.style.transition = "unset";
         const clientX = e?.clientX;
         ele.left = ele.offsetLeft;
         handleMouseMove(ele, wrap, clientX);

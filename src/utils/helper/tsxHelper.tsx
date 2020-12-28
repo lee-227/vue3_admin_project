@@ -1,10 +1,10 @@
-import { Slots } from 'vue';
-import { isFunction } from '@/utils/is';
+import { Slots } from "vue";
+import { isFunction } from "@/utils/is";
 
 /**
  * @description:  Get slot to prevent empty error
  */
-export function getSlot(slots: Slots, slot = 'default', data?: any) {
+export function getSlot(slots: Slots, slot = "default", data?: any) {
   if (!slots || !Reflect.has(slots, slot)) {
     return null;
   }
@@ -25,7 +25,7 @@ export function getSlot(slots: Slots, slot = 'default', data?: any) {
 export function extendSlots(slots: Slots, excludeKeys: string[] = []) {
   const slotKeys = Object.keys(slots);
   const ret: any = {};
-  slotKeys.map((key) => {
+  slotKeys.map(key => {
     if (excludeKeys.includes(key)) {
       return null;
     }
@@ -37,7 +37,7 @@ export function extendSlots(slots: Slots, excludeKeys: string[] = []) {
 // Get events on attrs
 export function getListeners(attrs: Record<string, unknown>) {
   const listeners: any = {};
-  Object.keys(attrs).forEach((key) => {
+  Object.keys(attrs).forEach(key => {
     if (/^on/.test(key)) {
       listeners[key] = attrs[key];
     }

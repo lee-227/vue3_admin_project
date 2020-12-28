@@ -1,22 +1,24 @@
-import type { Trigger } from './types';
+import { Trigger } from "./types";
 
-import { defineComponent, computed, unref } from 'vue';
-import { Dropdown, Menu } from 'ant-design-vue';
-import Icon from '@/components/Icon/index';
+import { defineComponent, computed, unref } from "vue";
+import { Dropdown, Menu } from "ant-design-vue";
+import Icon from "@/components/Icon/index";
 
-import { basicDropdownProps } from './props';
-import { getSlot } from '@/utils/helper/tsxHelper';
+import { basicDropdownProps } from "./props";
+import { getSlot } from "@/utils/helper/tsxHelper";
 
 export default defineComponent({
-  name: 'Dropdown',
+  name: "Dropdown",
   props: basicDropdownProps,
-  emits: ['menuEvent'],
+  emits: ["menuEvent"],
   setup(props, { slots, emit, attrs }) {
     const getMenuList = computed(() => props.dropMenuList);
 
     function handleClickMenu({ key }: any) {
-      const menu = unref(getMenuList).find((item) => `${item.event}` === `${key}`);
-      emit('menuEvent', menu);
+      const menu = unref(getMenuList).find(
+        item => `${item.event}` === `${key}`
+      );
+      emit("menuEvent", menu);
     }
 
     function renderMenus() {
@@ -24,7 +26,7 @@ export default defineComponent({
         <Menu onClick={handleClickMenu} selectedKeys={props.selectedKeys}>
           {() => (
             <>
-              {unref(getMenuList).map((item) => {
+              {unref(getMenuList).map(item => {
                 const { disabled, icon, text, divider, event } = item;
                 return [
                   <Menu.Item key={`${event}`} disabled={disabled}>
@@ -36,7 +38,7 @@ export default defineComponent({
                     )}
                   </Menu.Item>,
                   // @ts-ignore
-                  divider && <Menu.Divider key={`d-${event}`} />,
+                  divider && <Menu.Divider key={`d-${event}`} />
                 ];
               })}
             </>
@@ -49,9 +51,9 @@ export default defineComponent({
       <Dropdown trigger={props.trigger as Trigger[]} {...attrs}>
         {{
           default: () => <span>{getSlot(slots)}</span>,
-          overlay: () => renderMenus(),
+          overlay: () => renderMenus()
         }}
       </Dropdown>
     );
-  },
+  }
 });

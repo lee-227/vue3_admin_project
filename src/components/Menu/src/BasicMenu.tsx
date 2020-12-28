@@ -1,7 +1,7 @@
-import './index.less';
+import "./index.less";
 
-import type { MenuState } from './types';
-import type { Menu as MenuType } from '@/router/types';
+import { MenuState } from "./types";
+import { Menu as MenuType } from "@/router/types";
 
 import {
   computed,
@@ -12,37 +12,37 @@ import {
   toRefs,
   ComputedRef,
   ref,
-  CSSProperties,
-} from 'vue';
-import { Menu } from 'ant-design-vue';
-import MenuContent from './MenuContent';
+  CSSProperties
+} from "vue";
+import { Menu } from "ant-design-vue";
+import MenuContent from "./MenuContent";
 // import { ScrollContainer } from '/@/components/Container';
 // import { BasicArrow } from '/@/components/Basic';
 
-import { MenuModeEnum, MenuTypeEnum } from '@/enums/menuEnums';
-import { ThemeEnum } from '@/enums/appEnums';
+import { MenuModeEnum, MenuTypeEnum } from "@/enums/menuEnums";
+import { ThemeEnum } from "@/enums/appEnums";
 
-import { appStore } from '@/store/app';
+import { appStore } from "@/store/app";
 
-import { useOpenKeys } from './useOpenKeys';
-import { useRouter } from 'vue-router';
+import { useOpenKeys } from "./useOpenKeys";
+import { useRouter } from "vue-router";
 
-import { isFunction } from '@/utils/is';
-import { getSlot } from '@/utils/helper/tsxHelper';
-import { menuHasChildren } from './helper';
-import { getCurrentParentPath } from '@/router/menus';
+import { isFunction } from "@/utils/is";
+import { getSlot } from "@/utils/helper/tsxHelper";
+import { menuHasChildren } from "./helper";
+import { getCurrentParentPath } from "@/router/menus";
 
-import { basicProps } from './props';
-import { useMenuSetting } from '@/hooks/setting/useMenuSetting';
-import { REDIRECT_NAME } from '@/router/constant';
-import { tabStore } from '@/store/tab';
-import { useDesign } from '@/hooks/web/useDesign';
+import { basicProps } from "./props";
+import { useMenuSetting } from "@/hooks/setting/useMenuSetting";
+import { REDIRECT_NAME } from "@/router/constant";
+import { tabStore } from "@/store/tab";
+import { useDesign } from "@/hooks/web/useDesign";
 export default defineComponent({
-  name: 'BasicMenu',
+  name: "BasicMenu",
   props: basicProps,
-  emits: ['menuClick'],
+  emits: ["menuClick"],
   setup(props, { slots, emit }) {
-    const currentParentPath = ref('');
+    const currentParentPath = ref("");
     const isClickGo = ref(false);
 
     const menuState = reactive<MenuState>({
@@ -51,14 +51,19 @@ export default defineComponent({
       theme: computed(() => props.theme) as ComputedRef<ThemeEnum>,
       openKeys: [],
       selectedKeys: [],
-      collapsedOpenKeys: [],
+      collapsedOpenKeys: []
     });
 
-    const { prefixCls } = useDesign('basic-menu');
+    const { prefixCls } = useDesign("basic-menu");
 
     const { items, mode, accordion } = toRefs(props);
 
-    const { getCollapsed, getIsHorizontal, getTopMenuAlign, getSplit } = useMenuSetting();
+    const {
+      getCollapsed,
+      getIsHorizontal,
+      getTopMenuAlign,
+      getSplit
+    } = useMenuSetting();
 
     const { currentRoute } = useRouter();
 
@@ -81,12 +86,14 @@ export default defineComponent({
           [`${prefixCls}__second`]:
             !props.isHorizontal && appStore.getProjectConfig.menuSetting.split,
           [`${prefixCls}__sidebar-hor`]:
-            type === MenuTypeEnum.TOP_MENU && mode === MenuModeEnum.HORIZONTAL,
-        },
+            type === MenuTypeEnum.TOP_MENU && mode === MenuModeEnum.HORIZONTAL
+        }
       ];
     });
 
-    const showTitle = computed(() => props.collapsedShowTitle && unref(getCollapsed));
+    const showTitle = computed(
+      () => props.collapsedShowTitle && unref(getCollapsed)
+    );
 
     const getInlineCollapseOptions = computed(() => {
       const isInline = props.mode === MenuModeEnum.INLINE;
@@ -104,8 +111,8 @@ export default defineComponent({
         return {
           height: isHorizontal
             ? `calc(100% + 1px)`
-            : `calc(100%  - ${props.showLogo ? '48px' : '0'})`,
-          overflowY: isHorizontal ? 'hidden' : 'auto',
+            : `calc(100%  - ${props.showLogo ? "48px" : "0"})`,
+          overflowY: isHorizontal ? "hidden" : "auto"
         };
       }
     );
@@ -125,7 +132,7 @@ export default defineComponent({
         handleMenuChange();
       },
       {
-        immediate: true,
+        immediate: true
       }
     );
 
@@ -133,19 +140,25 @@ export default defineComponent({
 
     async function getParentPath() {
       const { appendClass } = props;
-      if (!appendClass) return '';
+      if (!appendClass) return "";
       const parentPath = await getCurrentParentPath(unref(currentRoute).path);
 
       currentParentPath.value = parentPath;
     }
 
-    async function handleMenuClick({ key, keyPath }: { key: string; keyPath: string[] }) {
+    async function handleMenuClick({
+      key,
+      keyPath
+    }: {
+      key: string;
+      keyPath: string[];
+    }) {
       const { beforeClickFn } = props;
       if (beforeClickFn && isFunction(beforeClickFn)) {
         const flag = await beforeClickFn(key);
         if (!flag) return;
       }
-      emit('menuClick', key);
+      emit("menuClick", key);
 
       isClickGo.value = true;
       menuState.openKeys = keyPath;
@@ -183,7 +196,9 @@ export default defineComponent({
     // }
 
     function renderItem(menu: MenuType, level = 1) {
-      return !menuHasChildren(menu) ? renderMenuItem(menu, level) : renderSubMenu(menu, level);
+      return !menuHasChildren(menu)
+        ? renderMenuItem(menu, level)
+        : renderSubMenu(menu, level);
     }
 
     function renderMenuItem(menu: MenuType, level: number) {
@@ -195,8 +210,8 @@ export default defineComponent({
         `${prefixCls}-item__level${level}`,
         ` ${menuState.theme} `,
         {
-          'top-active-menu': isAppendActiveCls,
-        },
+          "top-active-menu": isAppendActiveCls
+        }
       ];
       return (
         <Menu.Item key={menu.path} class={levelCls}>
@@ -205,7 +220,7 @@ export default defineComponent({
               item={menu}
               showTitle={unref(showTitle)}
               isHorizontal={props.isHorizontal}
-            />,
+            />
           ]}
         </Menu.Item>
       );
@@ -221,10 +236,11 @@ export default defineComponent({
                 showTitle={unref(showTitle)}
                 item={menu}
                 isHorizontal={props.isHorizontal}
-              />,
+              />
             ],
             // expandIcon: renderExpandIcon,
-            default: () => (menu.children || []).map((item) => renderItem(item, level + 1)),
+            default: () =>
+              (menu.children || []).map(item => renderItem(item, level + 1))
           }}
         </Menu.SubMenu>
       );
@@ -247,7 +263,7 @@ export default defineComponent({
           {...unref(getInlineCollapseOptions)}
         >
           {{
-            default: () => unref(items).map((item) => renderItem(item)),
+            default: () => unref(items).map(item => renderItem(item))
           }}
         </Menu>
       );
@@ -256,12 +272,12 @@ export default defineComponent({
     return () => {
       return (
         <>
-          {!unref(getIsHorizontal) && getSlot(slots, 'header')}
+          {!unref(getIsHorizontal) && getSlot(slots, "header")}
           <div class={`${prefixCls}-wrapper`} style={unref(getWrapperStyle)}>
             {renderMenu()}
           </div>
         </>
       );
     };
-  },
+  }
 });

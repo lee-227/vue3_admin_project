@@ -25,15 +25,19 @@ export function deepMerge<T = any>(src: any, target: any): T {
 }
 export function openWindow(
   url: string,
-  opt?: { target?: TargetContext | string; noopener?: boolean; noreferrer?: boolean }
+  opt?: {
+    target?: TargetContext | string;
+    noopener?: boolean;
+    noreferrer?: boolean;
+  }
 ) {
-  const { target = '__blank', noopener = true, noreferrer = true } = opt || {};
+  const { target = "__blank", noopener = true, noreferrer = true } = opt || {};
   const feature: string[] = [];
 
-  noopener && feature.push('noopener=yes');
-  noreferrer && feature.push('noreferrer=yes');
+  noopener && feature.push("noopener=yes");
+  noreferrer && feature.push("noreferrer=yes");
 
-  window.open(url, target, feature.join(','));
+  window.open(url, target, feature.join(","));
 }
 
 export function es6Unique<T>(arr: T[]): T[] {

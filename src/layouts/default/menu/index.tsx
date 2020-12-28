@@ -1,38 +1,38 @@
-import './index.less';
+import "./index.less";
 
-import { PropType, toRef } from 'vue';
+import { PropType, toRef } from "vue";
 
-import { computed, defineComponent, unref } from 'vue';
-import { BasicMenu } from '@/components/Menu';
-import { AppLogo } from '@/components/Application';
+import { computed, defineComponent, unref } from "vue";
+import { BasicMenu } from "@/components/Menu";
+import { AppLogo } from "@/components/Application";
 
-import { MenuModeEnum, MenuSplitTyeEnum } from '@/enums/menuEnums';
+import { MenuModeEnum, MenuSplitTyeEnum } from "@/enums/menuEnums";
 
-import { useMenuSetting } from '@/hooks/setting/useMenuSetting';
+import { useMenuSetting } from "@/hooks/setting/useMenuSetting";
 
-import { useGo } from '@/hooks/web/usePage';
-import { useSplitMenu } from './useLayoutMenu';
-import { openWindow } from '@/utils';
-import { propTypes } from '@/utils/propTypes';
-import { isUrl } from '@/utils/is';
-import { useRootSetting } from '@/hooks/setting/useRootSetting';
+import { useGo } from "@/hooks/web/usePage";
+import { useSplitMenu } from "./useLayoutMenu";
+import { openWindow } from "@/utils";
+import { propTypes } from "@/utils/propTypes";
+import { isUrl } from "@/utils/is";
+import { useRootSetting } from "@/hooks/setting/useRootSetting";
 
 export default defineComponent({
-  name: 'LayoutMenu',
+  name: "LayoutMenu",
   props: {
-    theme: propTypes.oneOf(['light', 'dark']),
+    theme: propTypes.oneOf(["light", "dark"]),
 
     splitType: {
       type: Number as PropType<MenuSplitTyeEnum>,
-      default: MenuSplitTyeEnum.NONE,
+      default: MenuSplitTyeEnum.NONE
     },
 
     isHorizontal: propTypes.bool,
     // menu Mode
     menuMode: {
       type: [String] as PropType<Nullable<MenuModeEnum>>,
-      default: '',
-    },
+      default: ""
+    }
   },
   setup(props) {
     const go = useGo();
@@ -44,17 +44,25 @@ export default defineComponent({
       getMenuTheme,
       getCollapsed,
       getAccordion,
-      getIsSidebarType,
+      getIsSidebarType
     } = useMenuSetting();
     const { getShowLogo } = useRootSetting();
 
-    const { menusRef } = useSplitMenu(toRef(props, 'splitType'));
+    const { menusRef } = useSplitMenu(toRef(props, "splitType"));
 
-    const getComputedMenuMode = computed(() => props.menuMode || unref(getMenuMode));
+    const getComputedMenuMode = computed(
+      () => props.menuMode || unref(getMenuMode)
+    );
 
-    const getComputedMenuTheme = computed(() => props.theme || unref(getMenuTheme));
-    const showLogo = computed(() => unref(getShowLogo) && unref(getIsSidebarType));
-    const appendClass = computed(() => props.splitType === MenuSplitTyeEnum.TOP);
+    const getComputedMenuTheme = computed(
+      () => props.theme || unref(getMenuTheme)
+    );
+    const showLogo = computed(
+      () => unref(getShowLogo) && unref(getIsSidebarType)
+    );
+    const appendClass = computed(
+      () => props.splitType === MenuSplitTyeEnum.TOP
+    );
     /**
      * click menu
      * @param menu
@@ -103,10 +111,10 @@ export default defineComponent({
           showLogo={unref(showLogo)}
         >
           {{
-            header: () => renderHeader(),
+            header: () => renderHeader()
           }}
         </BasicMenu>
       );
     };
-  },
+  }
 });

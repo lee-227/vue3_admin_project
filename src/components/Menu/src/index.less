@@ -1,6 +1,6 @@
-@import (reference) '../../../design/index.less';
+@import (reference) "../../../design/index.less";
 
-@basic-menu-prefix-cls: ~'@{namespace}-basic-menu';
+@basic-menu-prefix-cls: ~"@{namespace}-basic-menu";
 
 .active-style() {
   color: @white;
@@ -46,7 +46,10 @@
 
   &--hide-title {
     &.ant-menu-inline-collapsed > .ant-menu-item,
-    &.ant-menu-inline-collapsed > .ant-menu-item-group > .ant-menu-item-group-list > .ant-menu-item,
+    &.ant-menu-inline-collapsed
+      > .ant-menu-item-group
+      > .ant-menu-item-group-list
+      > .ant-menu-item,
     &.ant-menu-inline-collapsed
       > .ant-menu-item-group
       > .ant-menu-item-group-list
@@ -63,7 +66,7 @@
       padding: 2px 0;
     }
 
-    & > li[role='menuitem']:not(.ant-menu-submenu),
+    & > li[role="menuitem"]:not(.ant-menu-submenu),
     & > li > .ant-menu-submenu-title {
       display: flex;
       margin-top: 10px;
@@ -237,7 +240,9 @@
     // Reset menu item row height
     .ant-menu-item:not(.@{basic-menu-prefix-cls}-item__level1),
     .ant-menu-sub.ant-menu-inline > .ant-menu-item,
-    .ant-menu-sub.ant-menu-inline > .ant-menu-submenu > .ant-menu-submenu-title {
+    .ant-menu-sub.ant-menu-inline
+      > .ant-menu-submenu
+      > .ant-menu-submenu-title {
       height: @app-menu-item-height;
       margin: 0;
       line-height: @app-menu-item-height;
@@ -323,7 +328,9 @@
     // Reset menu item row height
     .ant-menu-item,
     .ant-menu-sub.ant-menu-inline > .ant-menu-item,
-    .ant-menu-sub.ant-menu-inline > .ant-menu-submenu > .ant-menu-submenu-title {
+    .ant-menu-sub.ant-menu-inline
+      > .ant-menu-submenu
+      > .ant-menu-submenu-title {
       display: flex;
       height: @app-menu-item-height * 1.4;
       padding: 6px 0 !important;
